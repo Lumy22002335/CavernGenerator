@@ -2,24 +2,40 @@
 
 namespace CavernGenerator
 {
+    /// <summary>
+    /// Generator Class responsible for generating the cavern
+    /// </summary>
     class Generator
     {
+        // Declare a Random
         private Random rand;
 
         private int xSize;
+        /// <value> The X size of the world</value>
         public int XSize { get => xSize; }
+
         private int ySize;
+        /// <value> The Y size of the world</value>
         public int YSize { get => ySize; }
 
+        // The number of steps to run the generation
         private int steps;
+        // The number of neighbors a tile has that are Rock type
         private int rockyNeighbors;
 
         private Tile[,] world;
+        /// <value>The world array</value>
         public Tile[,] World { get => world; }
         
+        // Array for the newWorld
         private Tile[,] newWorld;
+        // Auxiliar array for the world
         private Tile[,] auxWorld;
 
+        /// <summary>
+        /// Generator constructor initializes all the necessary values
+        /// </summary>
+        /// <param name="args">Array of arguments passed in through the command line</param>
         public Generator(string[] args) 
         {
             // Tries to parse args[0] to get the xSize value
@@ -40,20 +56,29 @@ namespace CavernGenerator
                 steps = 5;
             }
 
+            // Initialize the random
             rand = new Random();
 
+            // Initialize the world array with the X and Y sizes
             world = new Tile[XSize, YSize];
+            // Initialize the newWorld array with the X and Y sizes
             newWorld = new Tile[XSize, YSize];
 
+            // Initialize the number of Rocky Neighbors at 0
             rockyNeighbors = 0;
         }
 
+        /// <summary>
+        /// Initializes the world array, setting a tile type for every tile in the array
+        /// </summary>
         private void InitializeWorld()
         {
+            // Runs throught the array
             for (int y = 0; y < YSize; y++)
             {
                 for (int x = 0; x < XSize; x++)
                 {
+                    // Gives a 50/50 chance for a tile to be either Ground or Rock
                     world[x, y] = 
                         new Tile(rand.NextDouble() > 0.5f ? TileType.Ground : TileType.Rock);
                 }
