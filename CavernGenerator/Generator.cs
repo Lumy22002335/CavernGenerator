@@ -20,8 +20,8 @@ namespace CavernGenerator
 
         // The number of steps to run the generation
         private int steps;
-        // The number of neighbors a tile has that are Rock type
-        private int rockyNeighbors;
+        // The number of neighbours a tile has that are Rock type
+        private int rockyNeighbours;
 
         private Tile[,] world;
         /// <value>The world array</value>
@@ -64,8 +64,8 @@ namespace CavernGenerator
             // Initialize the newWorld array with the X and Y sizes
             newWorld = new Tile[xSize, ySize];
 
-            // Initialize the number of Rocky Neighbors at 0
-            rockyNeighbors = 0;
+            // Initialize the number of Rocky Neighbours at 0
+            rockyNeighbours = 0;
         }
 
         /// <summary>
@@ -85,42 +85,59 @@ namespace CavernGenerator
             }
         }
 
+        /// <summary>
+        /// Generates the world
+        /// </summary>
         public void Generate()
         {
+            // Initializes the main world array
             InitializeWorld();
 
+            // Goes through the array
             for (int i = 0; i < steps; i++)
             {
                 for (int y = 0; y < ySize; y++)
                 {
                     for (int x = 0; x < xSize; x++)
                     {
-                        // Check Neighbors
+                        // Checks the Neighbours at all 9 possible positions
                         for (int yn = -1; yn <= 1; yn++)
                         {
                             for (int xn = -1; xn <= 1; xn++)
                             {
-                                if (PeekNeighbors(y + yn, x + xn))
+                                // Peek the neighbour to check if it's rock type
+                                if (PeekNeighbours(y + yn, x + xn))
                                 {
-                                    rockyNeighbors++;
+                                    // If so increase the number of rocky neighbours
+                                    rockyNeighbours++;
                                 }
                             }
                         }
+                        
+                        // Create a new tile on the newWorld array and set it's type depending on the total number of neighbours
+                        newWorld[x, y] = new Tile(rockyNeighbours >= 5 ? TileType.Rock : TileType.Ground);
 
-                        newWorld[x, y] = new Tile(rockyNeighbors >= 5 ? TileType.Rock : TileType.Ground);
-
-                        rockyNeighbors = 0;
+                        // Reset the rockyNeighbours to 0
+                        rockyNeighbours = 0;
                     }
                 }
 
+                // Exange references between the newWorld and the world array
                 auxWorld = newWorld;
                 newWorld = world;
                 world = auxWorld;
             }
         }
 
-        public bool PeekNeighbors(int X, int Y)
+        /// <summary>
+        /// Peeks the given neighbour including toroidal to check if it's rock type
+        /// </summary>
+        /// <param name="X">The X location on the array</param>
+        /// <param name="Y">The Y location on the array</param>
+        /// <returns>True if the neighbour is Rock, False if Ground</returns>
+        public bool PeekNeighbours(int X, int Y)
         {
+            // Do a toroidal check to fix any out of bounds values
             if (X < 0)
                 X = xSize - 1;
             else if (X > xSize - 1)
@@ -129,6 +146,8 @@ namespace CavernGenerator
                 Y = ySize - 1;
             else if (Y > ySize - 1)
                 Y = 0;
+
+            // Return True if the neighbour is Rock, False if Ground
             return world[X, Y].Type == TileType.Rock;
         }
     }
