@@ -6,8 +6,10 @@ namespace CavernGenerator
     {
         private Random rand;
 
-        public int XSize { get; private set; }
-        public int YSize { get; private set; }
+        private int xSize;
+        public int XSize { get => xSize; }
+        private int ySize;
+        public int YSize { get => ySize; }
 
         private int steps;
         private int rockyNeighbors;
@@ -20,9 +22,23 @@ namespace CavernGenerator
 
         public Generator(string[] args) 
         {
-            XSize = Convert.ToInt32(args[0]);
-            YSize = Convert.ToInt32(args[1]);
-            steps = Convert.ToInt32(args[2]);
+            // Tries to parse args[0] to get the xSize value
+            if (args.Length != 3 || !Int32.TryParse(args[0], out xSize)) {
+                // If failed set the default xSize to 30
+                xSize = 30;
+            }
+            // Tries to parse args[1] to get the ySize value
+            if (args.Length != 3 || !Int32.TryParse(args[1], out ySize))
+            {
+                // If failed set the default ySize to 10
+                ySize = 10;
+            }
+            // Tries to parse args[2] to get the steps value
+            if (args.Length != 3 || !Int32.TryParse(args[2], out steps))
+            {
+                // If failed set the default steps to 5
+                steps = 5;
+            }
 
             rand = new Random();
 

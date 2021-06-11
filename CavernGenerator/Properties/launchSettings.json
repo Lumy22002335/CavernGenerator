@@ -2,7 +2,7 @@
   "profiles": {
     "CavernGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "40 10 5"
+      "commandLineArgs": "40 40 2"
     }
   }
 }
