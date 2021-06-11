@@ -4,9 +4,13 @@ namespace CavernGenerator
 {
     class Program
     {
+        private static Generator caveGenerator;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            caveGenerator = new Generator(args);
+            caveGenerator.InitializeWorld();
+            caveGenerator.Generate();
         }
     }
 }
