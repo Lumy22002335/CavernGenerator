@@ -26,8 +26,8 @@ namespace CavernGenerator
 
             rand = new Random();
 
-            world = new Tile[ySize, xSize];
-            newWorld = new Tile[ySize, xSize];
+            world = new Tile[xSize, ySize];
+            newWorld = new Tile[xSize, ySize];
 
             rockyNeighbors = 0;
         }
@@ -38,7 +38,7 @@ namespace CavernGenerator
             {
                 for (int x = 0; x < xSize; x++)
                 {
-                    world[y, x] = 
+                    world[x, y] = 
                         new Tile(rand.NextDouble() > 0.5f ? TileType.Ground : TileType.Rock);
                 }
             }
@@ -64,7 +64,9 @@ namespace CavernGenerator
                             }
                         }
 
-                        newWorld[y, x] = new Tile(rockyNeighbors >= 5 ? TileType.Rock : TileType.Ground);
+                        newWorld[x, y] = new Tile(rockyNeighbors >= 5 ? TileType.Rock : TileType.Ground);
+
+                        rockyNeighbors = 0;
                     }
                 }
 
@@ -74,17 +76,29 @@ namespace CavernGenerator
             }
         }
 
+        public void RenderWorld()
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                for (int x = 0; x < xSize; x++)
+                {
+                    Console.Write(world[x, y].Sprite);
+                }
+                Console.WriteLine();
+            }
+        }
+
         public bool PeekNeighbors(int X, int Y)
         {
             if (X < 0)
-                X += xSize;
+                X = xSize -1;
             else if (X > xSize - 1)
-                X -= xSize;
+                X = 0;
             if (Y < 0)
-                Y += ySize;
+                Y = ySize - 1;
             else if (Y > ySize - 1)
-                Y -= ySize;
-            return world[Y, X].Type == TileType.Rock;
+                Y = 0;
+            return world[X, Y].Type == TileType.Rock;
         }
     }
 }

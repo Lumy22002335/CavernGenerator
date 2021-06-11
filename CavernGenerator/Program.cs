@@ -11,6 +11,7 @@ namespace CavernGenerator
             caveGenerator = new Generator(args);
             caveGenerator.InitializeWorld();
             caveGenerator.Generate();
+            caveGenerator.RenderWorld();
         }
     }
 }
