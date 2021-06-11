@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CavernGenerator
 {
@@ -8,35 +6,37 @@ namespace CavernGenerator
     {
         private Random rand;
 
-        private int xSize;
-        private int ySize;
+        public int XSize { get; private set; }
+        public int YSize { get; private set; }
+
         private int steps;
+        private int rockyNeighbors;
 
         private Tile[,] world;
+        public Tile[,] World { get => world; }
+        
         private Tile[,] newWorld;
         private Tile[,] auxWorld;
 
-        private int rockyNeighbors;
-
         public Generator(string[] args) 
         {
-            xSize = Convert.ToInt32(args[0]);
-            ySize = Convert.ToInt32(args[1]);
+            XSize = Convert.ToInt32(args[0]);
+            YSize = Convert.ToInt32(args[1]);
             steps = Convert.ToInt32(args[2]);
 
             rand = new Random();
 
-            world = new Tile[xSize, ySize];
-            newWorld = new Tile[xSize, ySize];
+            world = new Tile[XSize, YSize];
+            newWorld = new Tile[XSize, YSize];
 
             rockyNeighbors = 0;
         }
 
         public void InitializeWorld()
         {
-            for (int y = 0; y < ySize; y++)
+            for (int y = 0; y < YSize; y++)
             {
-                for (int x = 0; x < xSize; x++)
+                for (int x = 0; x < XSize; x++)
                 {
                     world[x, y] = 
                         new Tile(rand.NextDouble() > 0.5f ? TileType.Ground : TileType.Rock);
@@ -48,9 +48,9 @@ namespace CavernGenerator
         {
             for (int i = 0; i < steps; i++)
             {
-                for (int y = 0; y < ySize; y++)
+                for (int y = 0; y < YSize; y++)
                 {
-                    for (int x = 0; x < xSize; x++)
+                    for (int x = 0; x < XSize; x++)
                     {
                         // Check Neighbors
                         for (int yn = -1; yn <= 1; yn++)
@@ -76,27 +76,15 @@ namespace CavernGenerator
             }
         }
 
-        public void RenderWorld()
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                for (int x = 0; x < xSize; x++)
-                {
-                    Console.Write(world[x, y].Sprite);
-                }
-                Console.WriteLine();
-            }
-        }
-
         public bool PeekNeighbors(int X, int Y)
         {
             if (X < 0)
-                X = xSize -1;
-            else if (X > xSize - 1)
+                X = XSize -1;
+            else if (X > XSize - 1)
                 X = 0;
             if (Y < 0)
-                Y = ySize - 1;
-            else if (Y > ySize - 1)
+                Y = YSize - 1;
+            else if (Y > YSize - 1)
                 Y = 0;
             return world[X, Y].Type == TileType.Rock;
         }
