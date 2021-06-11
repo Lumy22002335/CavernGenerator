@@ -9,5 +9,10 @@ namespace CavernGenerator
         public char Sprite { get => Type == TileType.Ground ? '.' : '#'; }
 
         public TileType Type { get; set; }
+
+        public Tile(TileType type)
+        {
+            Type = type;
+        }
     }
 }

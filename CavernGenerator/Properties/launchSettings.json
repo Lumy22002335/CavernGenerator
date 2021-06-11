@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CavernGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "10 20 5"
+    }
+  }
+}
