@@ -48,7 +48,7 @@ namespace CavernGenerator
             rockyNeighbors = 0;
         }
 
-        public void InitializeWorld()
+        private void InitializeWorld()
         {
             for (int y = 0; y < YSize; y++)
             {
@@ -62,6 +62,8 @@ namespace CavernGenerator
 
         public void Generate()
         {
+            InitializeWorld();
+
             for (int i = 0; i < steps; i++)
             {
                 for (int y = 0; y < YSize; y++)
