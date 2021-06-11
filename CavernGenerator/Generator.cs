@@ -60,9 +60,9 @@ namespace CavernGenerator
             rand = new Random();
 
             // Initialize the world array with the X and Y sizes
-            world = new Tile[XSize, YSize];
+            world = new Tile[xSize, ySize];
             // Initialize the newWorld array with the X and Y sizes
-            newWorld = new Tile[XSize, YSize];
+            newWorld = new Tile[xSize, ySize];
 
             // Initialize the number of Rocky Neighbors at 0
             rockyNeighbors = 0;
@@ -74,9 +74,9 @@ namespace CavernGenerator
         private void InitializeWorld()
         {
             // Runs throught the array
-            for (int y = 0; y < YSize; y++)
+            for (int y = 0; y < ySize; y++)
             {
-                for (int x = 0; x < XSize; x++)
+                for (int x = 0; x < xSize; x++)
                 {
                     // Gives a 50/50 chance for a tile to be either Ground or Rock
                     world[x, y] = 
@@ -91,9 +91,9 @@ namespace CavernGenerator
 
             for (int i = 0; i < steps; i++)
             {
-                for (int y = 0; y < YSize; y++)
+                for (int y = 0; y < ySize; y++)
                 {
-                    for (int x = 0; x < XSize; x++)
+                    for (int x = 0; x < xSize; x++)
                     {
                         // Check Neighbors
                         for (int yn = -1; yn <= 1; yn++)
@@ -122,12 +122,12 @@ namespace CavernGenerator
         public bool PeekNeighbors(int X, int Y)
         {
             if (X < 0)
-                X = XSize -1;
-            else if (X > XSize - 1)
+                X = xSize - 1;
+            else if (X > xSize - 1)
                 X = 0;
             if (Y < 0)
-                Y = YSize - 1;
-            else if (Y > YSize - 1)
+                Y = ySize - 1;
+            else if (Y > ySize - 1)
                 Y = 0;
             return world[X, Y].Type == TileType.Rock;
         }
